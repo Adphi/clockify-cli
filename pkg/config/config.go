@@ -15,40 +15,9 @@ type APIConfig struct {
 	ClockifyKey    string `env:"CLOCKIFY_ACCESS_KEY"`
 }
 
-// Workhours
-type Workhours struct {
-	Monday    int
-	Tuesday   int
-	Wednesday int
-	Thursday  int
-	Friday    int
-	Saturday  int
-	Sunday    int
-}
-
-// ReportConfig
-type ReportConfig struct {
-	Workhours Workhours
-}
-
-// Filter for report
-type Filter struct {
-	Name  string
-	Tags  []string
-	Tasks []TaskFilter
-}
-
-// TaskFilter for report
-type TaskFilter struct {
-	Project string
-	Task    string
-}
-
 // Config contains the complete service configuration
 type Config struct {
-	APIConfig     APIConfig
-	ReportConfig  ReportConfig
-	ReportFilters map[string]Filter
+	APIConfig APIConfig
 }
 
 // NewTestConfig return a config object with test settings
