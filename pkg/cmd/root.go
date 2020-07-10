@@ -15,7 +15,6 @@ import (
 	createCmd "github.com/pkuebler/clockify-cli/pkg/cmd/create"
 	deleteCmd "github.com/pkuebler/clockify-cli/pkg/cmd/delete"
 	listCmd "github.com/pkuebler/clockify-cli/pkg/cmd/list"
-	reportCmd "github.com/pkuebler/clockify-cli/pkg/cmd/report"
 	userinfoCmd "github.com/pkuebler/clockify-cli/pkg/cmd/userinfo"
 	"github.com/pkuebler/clockify-cli/pkg/config"
 	"github.com/pkuebler/clockify-cli/pkg/runtime"
@@ -71,7 +70,6 @@ func NewRootCmd(goCtx context.Context) *cobra.Command {
 	// Commands
 	rootCmd.AddCommand(configCmd.NewCmdConfig(ctx))
 	rootCmd.AddCommand(userinfoCmd.NewCmdInfo(ctx))
-	rootCmd.AddCommand(reportCmd.NewCmdReport(ctx))
 	rootCmd.AddCommand(createCmd.NewCmdCreate(ctx))
 	rootCmd.AddCommand(deleteCmd.NewCmdDelete(ctx))
 	rootCmd.AddCommand(listCmd.NewCmdList(ctx))
