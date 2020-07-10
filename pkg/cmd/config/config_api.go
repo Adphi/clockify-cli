@@ -14,7 +14,8 @@ import (
 // NewCmdConfigAPI creates a config root command
 func NewCmdConfigAPI(ctx *runtime.Runtime) *cobra.Command {
 	tmp := config.APIConfig{
-		APIEndpoint: "https://api.clockify.me/api/v1",
+		APIEndpoint:    "https://api.clockify.me/api/v1",
+		ReportEndpoint: "https://reports.api.clockify.me/v1",
 	}
 
 	cmd := &cobra.Command{
@@ -39,6 +40,7 @@ func NewCmdConfigAPI(ctx *runtime.Runtime) *cobra.Command {
 	}
 
 	cmd.Flags().StringVarP(&tmp.APIEndpoint, "endpoint", "e", ctx.Config.APIConfig.APIEndpoint, "--endpoint https://api.clockify.me/api/v1")
+	cmd.Flags().StringVarP(&tmp.ReportEndpoint, "reportEndpoint", "r", ctx.Config.APIConfig.ReportEndpoint, "--endpoint https://reports.api.clockify.me/v1")
 	cmd.Flags().StringVarP(&tmp.ClockifyKey, "key", "k", "", "--key XXXXX")
 
 	return cmd
