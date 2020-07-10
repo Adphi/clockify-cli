@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// TimeEntryService serve the clockify time emtries api
 type TimeEntryService struct {
 	client *APIClient
 }
@@ -17,6 +18,7 @@ type TimeInterval struct {
 	End      *time.Time `json:"end"`
 }
 
+// TimeEntry resource from clockify
 type TimeEntry struct {
 	ID          string   `json:"id"`
 	WorkspaceID string   `json:"workspaceId"`
@@ -31,6 +33,7 @@ type TimeEntry struct {
 	TimeInterval TimeInterval `json:"timeInterval"`
 }
 
+// TimeEntryListFilter for the clockify list endpoint
 type TimeEntryListFilter struct {
 	Start       *time.Time
 	End         *time.Time
@@ -42,6 +45,7 @@ type TimeEntryListFilter struct {
 	PageSize    int
 }
 
+// ToQuery formats the filters for the Get Query
 func (t *TimeEntryListFilter) ToQuery() string {
 	v := url.Values{}
 
@@ -75,6 +79,7 @@ func (t *TimeEntryListFilter) ToQuery() string {
 	return v.Encode()
 }
 
+// List all time entries in a workspace by a userID
 func (s *TimeEntryService) List(workspaceID string, userID string, filter *TimeEntryListFilter) (*[]TimeEntry, error) {
 	path := fmt.Sprintf("workspaces/%s/user/%s/time-entries", workspaceID, userID)
 	req, err := s.client.newAPIRequest("GET", path, filter.ToQuery(), nil)

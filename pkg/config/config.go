@@ -49,10 +49,6 @@ func ReadConfig(file string, log *logrus.Entry) *Config {
 		log.Fatal(err)
 	}
 
-	if config.ReportFilters == nil {
-		config.ReportFilters = map[string]Filter{}
-	}
-
 	return &config
 }
 

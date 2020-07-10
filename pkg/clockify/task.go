@@ -6,10 +6,12 @@ import (
 	"strconv"
 )
 
+// TaskService serve the clockify task api
 type TaskService struct {
 	client *APIClient
 }
 
+// Task resource from clockify
 type Task struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
@@ -20,6 +22,7 @@ type Task struct {
 	AssigneeIds []string `json:"assigneeIds"`
 }
 
+// TaskListFilter for the clockify list endpoint
 type TaskListFilter struct {
 	Name     *string
 	IsActive *bool
@@ -27,6 +30,7 @@ type TaskListFilter struct {
 	PageSize int
 }
 
+// ToQuery formats the filters for the Get Query
 func (t *TaskListFilter) ToQuery() string {
 	v := url.Values{}
 
@@ -47,6 +51,7 @@ func (t *TaskListFilter) ToQuery() string {
 	return v.Encode()
 }
 
+// List all task in a workspace and project
 func (t *TaskService) List(workspaceID string, projectID string, filter *TaskListFilter) (*[]Task, error) {
 	path := fmt.Sprintf("workspaces/%s/projects/%s/tasks", workspaceID, projectID)
 	req, err := t.client.newAPIRequest("GET", path, filter.ToQuery(), nil)
@@ -63,6 +68,7 @@ func (t *TaskService) List(workspaceID string, projectID string, filter *TaskLis
 	return &tasks, nil
 }
 
+// Get a task by id in a workspace and project
 func (t *TaskService) Get(workspaceID string, projectID string, taskID string) (*Task, error) {
 	path := fmt.Sprintf("workspaces/%s/projects/%s/tasks/%s", workspaceID, projectID, taskID)
 	req, err := t.client.newAPIRequest("GET", path, "", nil)

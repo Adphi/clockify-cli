@@ -5,10 +5,12 @@ import (
 	"time"
 )
 
+// WorkspaceService serve the clockify workspace api
 type WorkspaceService struct {
 	client *APIClient
 }
 
+// Workspace resource from clockify
 type Workspace struct {
 	// todo: hourlyRate
 	ID          string            `json:"id"`
@@ -59,6 +61,7 @@ type AutomaticLockSettings struct {
 	Type            string `json:"type"`
 }
 
+// List all workspaces from current user
 func (s *WorkspaceService) List() (*[]Workspace, error) {
 	path := fmt.Sprintf("workspaces")
 	req, err := s.client.newAPIRequest("GET", path, "", nil)

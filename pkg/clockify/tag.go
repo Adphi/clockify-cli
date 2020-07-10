@@ -6,10 +6,12 @@ import (
 	"strconv"
 )
 
+// TagService serve the clockify tag api
 type TagService struct {
 	client *APIClient
 }
 
+// Tag resource from clockify
 type Tag struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
@@ -17,6 +19,7 @@ type Tag struct {
 	Archived    bool   `json:"archived"`
 }
 
+// TagListFilter for the clockify list endpoint
 type TagListFilter struct {
 	Name     *string
 	Archived *bool
@@ -24,6 +27,7 @@ type TagListFilter struct {
 	PageSize int
 }
 
+// ToQuery formats the filters for the Get Query
 func (t *TagListFilter) ToQuery() string {
 	v := url.Values{}
 
@@ -44,6 +48,7 @@ func (t *TagListFilter) ToQuery() string {
 	return v.Encode()
 }
 
+// List all tags in a workspace
 func (s *TagService) List(workspaceID string, filter *TagListFilter) (*[]Tag, error) {
 	path := fmt.Sprintf("workspaces/%s/tags", workspaceID)
 	req, err := s.client.newAPIRequest("GET", path, filter.ToQuery(), nil)

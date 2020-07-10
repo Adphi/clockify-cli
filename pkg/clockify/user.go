@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// UserService serve the clockify user api
 type UserService struct {
 	client *APIClient
 }
@@ -23,6 +24,7 @@ type UserSettings struct {
 	WeekStart string `json:"weekStart"`
 }
 
+// UserInfo resource from clockify
 type UserInfo struct {
 	ActiveWorkspace  string `json:"activeWorkspace"`
 	DefaultWorkspace string `json:"defaultWorkspace"`
@@ -37,6 +39,7 @@ type UserInfo struct {
 	Settings    UserSettings `json:"settings"`
 }
 
+// Info about the current user
 func (s *UserService) Info() (*UserInfo, error) {
 	req, err := s.client.newAPIRequest("GET", "user", "", nil)
 	if err != nil {
@@ -52,6 +55,7 @@ func (s *UserService) Info() (*UserInfo, error) {
 	return &userInfo, nil
 }
 
+// UserListFilter for the clockify list endpoint
 type UserListFilter struct {
 	Name        *string
 	Page        int
@@ -65,6 +69,7 @@ type UserListFilter struct {
 	SortOrder *string
 }
 
+// ToQuery formats the filters for the Get Query
 func (u *UserListFilter) ToQuery() string {
 	v := url.Values{}
 
@@ -105,6 +110,7 @@ func (u *UserListFilter) ToQuery() string {
 	return v.Encode()
 }
 
+// List all users in a workspace
 func (u *UserService) List(workspaceID string, filter *UserListFilter) (*[]UserInfo, error) {
 	path := fmt.Sprintf("workspaces/%s/users", workspaceID)
 	req, err := u.client.newAPIRequest("GET", path, filter.ToQuery(), nil)

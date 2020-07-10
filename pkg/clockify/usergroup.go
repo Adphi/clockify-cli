@@ -6,10 +6,12 @@ import (
 	"strconv"
 )
 
+// UserGroupService serve the clockify user group api
 type UserGroupService struct {
 	client *APIClient
 }
 
+// UserGroup resource from clockify
 type UserGroup struct {
 	ID          string   `json:"id"`
 	Name        string   `json:"name"`
@@ -17,6 +19,7 @@ type UserGroup struct {
 	UserIDs     []string `json:"userIds"`
 }
 
+// UserGroupListFilter for the clockify list endpoint
 type UserGroupListFilter struct {
 	Name      *string
 	ProjectID *string
@@ -24,6 +27,7 @@ type UserGroupListFilter struct {
 	PageSize  int
 }
 
+// ToQuery formats the filters for the Get Query
 func (u *UserGroupListFilter) ToQuery() string {
 	v := url.Values{}
 
@@ -44,6 +48,7 @@ func (u *UserGroupListFilter) ToQuery() string {
 	return v.Encode()
 }
 
+// List all user groups in a workspace
 func (u *UserGroupService) List(workspaceID string, filter *UserGroupListFilter) (*[]UserGroup, error) {
 	path := fmt.Sprintf("workspaces/%s/user-groups", workspaceID)
 	req, err := u.client.newAPIRequest("GET", path, filter.ToQuery(), nil)

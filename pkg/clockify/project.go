@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// ProjectService serve the clockify project api
 type ProjectService struct {
 	client *APIClient
 }
@@ -15,6 +16,7 @@ type ProjectEstimate struct {
 	Type     string `json:"type"`
 }
 
+// Project resource from clockify
 type Project struct {
 	ID          string          `json:"id"`
 	Name        string          `json:"name"`
@@ -32,6 +34,7 @@ type Project struct {
 	Public      bool            `json:"public"`
 }
 
+// ProjectListFilter for the clockify list endpoint
 type ProjectListFilter struct {
 	Name            *string
 	Archived        *bool
@@ -47,6 +50,7 @@ type ProjectListFilter struct {
 	SortOrder       *string
 }
 
+// ToQuery formats the filters for the Get Query
 func (t *ProjectListFilter) ToQuery() string {
 	v := url.Values{}
 
@@ -100,6 +104,7 @@ func (t *ProjectListFilter) ToQuery() string {
 	return v.Encode()
 }
 
+// List all projects in a workspace
 func (s *ProjectService) List(workspaceID string, filter *ProjectListFilter) (*[]Project, error) {
 	path := fmt.Sprintf("workspaces/%s/projects", workspaceID)
 	req, err := s.client.newAPIRequest("GET", path, filter.ToQuery(), nil)
@@ -116,6 +121,7 @@ func (s *ProjectService) List(workspaceID string, filter *ProjectListFilter) (*[
 	return &projects, nil
 }
 
+// Get a project by id in a workspace
 func (s *ProjectService) Get(workspaceID string, projectID string) (*Project, error) {
 	path := fmt.Sprintf("workspaces/%s/projects/%s", workspaceID, projectID)
 	req, err := s.client.newAPIRequest("GET", path, "", nil)

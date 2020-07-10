@@ -9,6 +9,7 @@ import (
 	"github.com/pkuebler/clockify-cli/pkg/config"
 )
 
+// Runtime context
 type Runtime struct {
 	Log     *logrus.Entry
 	Config  *config.Config

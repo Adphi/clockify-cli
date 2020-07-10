@@ -6,10 +6,12 @@ import (
 	"strconv"
 )
 
+// ClientService serve the clockify client api
 type ClientService struct {
 	client *APIClient
 }
 
+// Client resource from clockify
 type Client struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
@@ -17,6 +19,7 @@ type Client struct {
 	Archived    bool   `json:"archived"`
 }
 
+// ClientListFilter for the clockify list endpoint
 type ClientListFilter struct {
 	Name     *string
 	Archived *bool
@@ -24,6 +27,7 @@ type ClientListFilter struct {
 	PageSize int
 }
 
+// ToQuery formats the filters for the Get Query
 func (c *ClientListFilter) ToQuery() string {
 	v := url.Values{}
 
@@ -44,6 +48,7 @@ func (c *ClientListFilter) ToQuery() string {
 	return v.Encode()
 }
 
+// List all clients in a workspace
 func (s *ClientService) List(workspaceID string, filter *ClientListFilter) (*[]Client, error) {
 	path := fmt.Sprintf("workspaces/%s/clients", workspaceID)
 	req, err := s.client.newAPIRequest("GET", path, filter.ToQuery(), nil)
