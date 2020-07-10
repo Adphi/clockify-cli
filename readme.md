@@ -28,4 +28,9 @@ if err != nil {
 ctx := context.Background()
 
 client.StartRatelimit(ctx)
+
+entries, err := ctx.Client.Workspace.List()
+if err != nil {
+    log.Fatal(err)
+}
 ```
